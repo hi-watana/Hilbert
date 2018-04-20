@@ -13,6 +13,8 @@ public class MainActivity extends AppCompatActivity {
     private final static int MAX_ORDER = 9;
     private int order = 1;
 
+    private final static String KEY_NAME = "MainActivity.order";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
         hilbertView = findViewById(R.id.hilbert_view);
         decButton = findViewById(R.id.dec_button);
         incButton = findViewById(R.id.inc_button);
+
+        if (savedInstanceState != null)
+            order = Integer.parseInt(savedInstanceState.getString(KEY_NAME));
+
         decButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,5 +60,11 @@ public class MainActivity extends AppCompatActivity {
         hilbertView.setOrder(order);
         decButton.setEnabled(order > 1);
         incButton.setEnabled(order < MAX_ORDER);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(KEY_NAME, new Integer(order).toString());
     }
 }
